@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/SahidH/mic2upnp/issues"
   },
-  "homepage": "https://github.com/SahidH/mic2upnp#readme"
+  "homepage": "https://github.com/SahidH/mic2upnp#readme",
+  "dependencies": {
+    "http": "0.0.1-security",
+    "internal-ip": "^6.0.0",
+    "mic": "^2.1.2",
+    "upnp-mediarenderer-client": "^1.2.4",
+    "waveheader": "0.0.2"
+  }
 }
