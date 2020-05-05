@@ -1,0 +1,19 @@
+{
+  "name": "mic2upnp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SahidH/mic2upnp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SahidH/mic2upnp/issues"
+  },
+  "homepage": "https://github.com/SahidH/mic2upnp#readme"
+}
