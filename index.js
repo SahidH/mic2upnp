@@ -4,7 +4,18 @@ const http = require('http');
 const header = require("waveheader");
 const port = 8080;
 
-const audioProcess = spawn('arecord', ['-c', '2', '-r', '192000', '-f', 'S32_LE', '-D', 'plughw:1,0'], {
+const sampleRate = 19200;
+const bitDepth = 32;
+const channels = 2;
+const audioProcess = spawn('arecord',
+    [
+        '-c', 2,
+        '-r', 19200,
+        '-f', `S${bitDepth}_LE`,
+        '-D', 'plughw:1,0',
+        '-q',
+        '-M'
+    ], {
     stdio: ['ignore', 'pipe', 'ignore']
 });
 
@@ -22,9 +33,9 @@ const audioServer = http
                 break;
             default:
                 response.write(header(0, {
-                    sampleRate: 192000,
-                    channels: 2,
-                    bitDepth: 32
+                    sampleRate,
+                    channels,
+                    bitDepth
                 }));
                 audioProcess.stdout.pipe(response);
                 break;
