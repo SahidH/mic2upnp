@@ -1,9 +1,13 @@
-const mic = require('mic');
+const spawn = require('child_process').spawn;
+
 const http = require('http');
 const header = require("waveheader");
 const port = 8080;
 
-let micInstance;
+const audioProcess = spawn('arecord', ['-c', '2', '-r', '192000', '-f', 'S32_LE', '-D', 'plughw:1,0'], {
+    stdio: ['ignore', 'pipe', 'ignore']
+});
+
 const ip = require('internal-ip').v4.sync();
 const audioServer = http
     .createServer((request, response) => {
@@ -17,22 +21,12 @@ const audioServer = http
                 response.end();
                 break;
             default:
-                if (!micInstance) {
-                    micInstance = mic({
-                        rate: '192000',
-                        channels: '2',
-                        bitwidth: '32',
-                    });
-                }
                 response.write(header(0, {
                     sampleRate: 192000,
                     channels: 2,
                     bitDepth: 32
                 }));
-                const buf = micInstance.getAudioStream();
-                buf.pipe(response);
-                micInstance.start();
-
+                audioProcess.stdout.pipe(response);
                 break;
         }
     });
@@ -64,11 +58,11 @@ const upnpControllerServer = http
     });
 audioServer.listen(port);
 upnpControllerServer.listen(port + 1);
-setInterval(() => {
-    audioServer.getConnections((count) => {
-        if (count === 0) {
-            micInstance && micInstance.stop();
-            micInstance = null;
-        }
-    });
-}, 200);
+// setInterval(() => {
+//     audioServer.getConnections((count) => {
+//         if (count === 0) {
+//             // micInstance && micInstance.stop();
+//             // micInstance = null;
+//         }
+//     });
+// }, 200);
